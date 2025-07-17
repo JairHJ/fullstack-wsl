@@ -1,0 +1,123 @@
+<div class="task-list-container">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+
+  <p-card>
+
+    <p-table 
+      [value]="tasks" 
+      [loading]="loading"
+      [paginator]="true" 
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} tareas"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      responsiveLayout="scroll"
+      styleClass="p-datatable-gridlines">
+      
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">
+            Nombre
+            <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="description">Descripción</th>
+          <th pSortableColumn="status">
+            Estado
+            <p-sortIcon field="status"></p-sortIcon>
+          </th>
+          <th pSortableColumn="created_at">
+            Fecha Creación
+            <p-sortIcon field="created_at"></p-sortIcon>
+          </th>
+          <th pSortableColumn="dead_line">
+            Fecha Límite
+            <p-sortIcon field="dead_line"></p-sortIcon>
+          </th>
+          <th pSortableColumn="created_by">
+            Creado por
+            <p-sortIcon field="created_by"></p-sortIcon>
+          </th>
+          <th pSortableColumn="is_alive">
+            Activo
+            <p-sortIcon field="is_alive"></p-sortIcon>
+          </th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-task>
+        <tr>
+          <td>
+            <span class="task-name" [class.task-overdue]="isOverdue(task.dead_line)">
+              {{ task.name }}
+            </span>
+          </td>
+          <td>
+            <span class="task-description">{{ task.description }}</span>
+          </td>
+          <td>
+            <p-tag 
+              [value]="getStatusLabel(task.status)" 
+              [severity]="getStatusColor(task.status)">
+            </p-tag>
+          </td>
+          <td>{{ formatDate(task.created_at) }}</td>
+          <td>
+            <span [class.overdue-date]="isOverdue(task.dead_line)">
+              {{ formatDate(task.dead_line) }}
+            </span>
+          </td>
+          <td>{{ task.created_by }}</td>
+          <td>
+            <p-tag 
+              [value]="task.is_alive ? 'Activo' : 'Inactivo'" 
+              [severity]="task.is_alive ? 'success' : 'secondary'">
+            </p-tag>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <p-button 
+                icon="pi pi-pencil" 
+                [routerLink]="['/tasks/edit', task.id]"
+                styleClass="p-button-rounded p-button-text p-button-info"
+                pTooltip="Editar tarea">
+              </p-button>
+              
+              <p-button 
+                [icon]="task.is_alive ? 'pi pi-pause' : 'pi pi-play'" 
+                (onClick)="toggleTaskStatus(task)"
+                [styleClass]="'p-button-rounded p-button-text ' + (task.is_alive ? 'p-button-warning' : 'p-button-success')"
+                pTooltip="Cambiar estado de tarea">
+              </p-button>
+              
+              <p-button 
+                icon="pi pi-trash" 
+                (onClick)="deleteTask(task)"
+                styleClass="p-button-rounded p-button-text p-button-danger"
+                pTooltip="Eliminar tarea">
+              </p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" class="text-center">
+            <div class="empty-message">
+              <i class="pi pi-info-circle" style="font-size: 2rem; color: #6c757d;"></i>
+              <p>No hay tareas disponibles.</p>
+              <p-button 
+                label="Crear primera tarea" 
+                icon="pi pi-plus" 
+                routerLink="/tasks/create"
+                styleClass="p-button-sm">
+              </p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>
