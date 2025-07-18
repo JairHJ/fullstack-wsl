@@ -1,88 +1,85 @@
-# 🔐 Fullstack App con Multi-Factor Authentication (MFA)
+# Aplicación Web con Autenticación MFA
 
-Aplicación fullstack con autenticación de dos factores usando Google Authenticator.
+Sistema de gestión de tareas con autenticación de dos factores usando Google Authenticator.
 
-## 🚀 Características
+## Descripción
 
-- ✅ **Multi-Factor Authentication (MFA)** con Google Authenticator
-- ✅ **Frontend**: Angular 19 + PrimeNG
-- ✅ **Backend**: Python Flask (Microservicios)
-- ✅ **Base de Datos**: SQLite
-- ✅ **Gestión de Tareas**: CRUD completo
-- ✅ **Seguridad**: JWT + TOTP (Time-based OTP)
+Esta aplicación permite a los usuarios registrarse, configurar autenticación de dos factores mediante códigos QR, y gestionar tareas personales. Implementa MFA para mayor seguridad en el acceso.
 
-## 🏗️ Arquitectura
+## Tecnologías utilizadas
 
-```
-fullstack/
-├── frontend/gui/          # Angular 19 + PrimeNG
-├── microservicios/        # Python Flask Services
-│   ├── auth_service/      # Autenticación con MFA
-│   ├── user_service/      # Gestión de usuarios
-│   ├── task_service/      # Gestión de tareas
-│   └── api_gateway/       # Proxy y enrutamiento
-└── requirements.txt       # Dependencias Python
-```
+**Frontend:**
+- Angular 19
+- PrimeNG
+- TypeScript
 
-## 🔧 Instalación y Uso
+**Backend:**
+- Python Flask
+- SQLite
+- JWT para autenticación
+- pyotp para códigos OTP
+- qrcode para generar códigos QR
 
-### Backend (Python)
+## Instalación
+
+### Configurar el backend
+
 ```bash
 cd microservicios
 python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
+source venv/bin/activate
 pip install -r requirements.txt
-
-# Iniciar todos los servicios
 ./start_services.sh
 ```
 
-### Frontend (Angular)
+### Configurar el frontend
+
 ```bash
 cd frontend/gui
 npm install
 ng serve
 ```
 
-## 📱 Flujo MFA
+## Cómo usar
 
-1. **Registro**: Usuario crea cuenta → Recibe código QR
-2. **Configuración**: Escanea QR con Google Authenticator
-3. **Login**: Username + Password + Código OTP (6 dígitos)
-4. **Acceso**: Solo con credenciales válidas + código MFA
+1. **Registro**: Crear una cuenta nueva
+2. **Configurar MFA**: Escanear el código QR con Google Authenticator
+3. **Iniciar sesión**: Usar usuario, contraseña y código de 6 dígitos
+4. **Gestionar tareas**: Crear, editar y eliminar tareas
 
-## 🛠️ Tecnologías
+## Estructura del proyecto
 
-### Backend
-- **Python Flask**: Framework web
-- **pyotp**: Generación y validación OTP
-- **qrcode**: Generación de códigos QR
-- **bcrypt**: Hashing de contraseñas
-- **JWT**: Tokens de autenticación
+```
+fullstack/
+├── frontend/gui/          # Aplicación Angular
+├── microservicios/        # Servicios Flask
+│   ├── auth_service/      # Manejo de autenticación
+│   ├── user_service/      # Gestión de usuarios
+│   ├── task_service/      # Gestión de tareas
+│   └── api_gateway/       # Gateway principal
+└── requirements.txt       # Dependencias Python
+```
 
-### Frontend
-- **Angular 19**: Framework SPA
-- **PrimeNG**: Componentes UI
-- **RxJS**: Programación reactiva
-- **TypeScript**: Tipado estático
+## Endpoints principales
 
-## 🔒 Seguridad
+**Autenticación (Puerto 5001):**
+- POST /register - Crear cuenta
+- POST /login - Iniciar sesión
+- POST /verify - Verificar token
 
-- **Doble Factor**: Algo que sabes (password) + Algo que tienes (móvil)
-- **Estándar TOTP**: Compatible con RFC 6238
-- **JWT Tokens**: Autenticación stateless
-- **Interceptor Automático**: Manejo transparente de tokens
+**Tareas (Puerto 5003):**
+- GET /tasks - Ver todas las tareas
+- POST /register_task - Crear nueva tarea
+- PUT /update_task/:id - Modificar tarea
+- DELETE /delete_task/:id - Eliminar tarea
 
-## 🌐 Endpoints
+## Autor
 
-### Auth Service (Puerto 5001)
-- `POST /register` - Registro con generación QR
-- `POST /login` - Login con validación OTP
-- `POST /verify` - Verificación de tokens
+Jair Herrera  
+Proyecto académico - Implementación de MFA
 
-### Task Service (Puerto 5003)
-- `GET /tasks` - Listar tareas
-- `POST /register_task` - Crear tarea
-- `PUT /update_task/:id` - Actualizar tarea
-- `DELETE /delete_task/:id` - Eliminar tarea
+## Notas
 
+- La aplicación funciona en modo de desarrollo
+- Requiere Google Authenticator para el segundo factor de autenticación
+- Los tokens JWT expiran en 24 horas
