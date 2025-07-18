@@ -86,11 +86,3 @@ ng serve
 - `PUT /update_task/:id` - Actualizar tarea
 - `DELETE /delete_task/:id` - Eliminar tarea
 
-## 📝 Autor
-
-**Tu Nombre**  
-Proyecto académico - Implementación MFA
-
-## 📄 Licencia
-
-Este proyecto es para fines educativos.
