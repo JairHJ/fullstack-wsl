@@ -62,24 +62,13 @@ fullstack/
 
 ## Endpoints principales
 
-**Autenticación (Puerto 5001):**
+**Autenticación:**
 - POST /register - Crear cuenta
 - POST /login - Iniciar sesión
 - POST /verify - Verificar token
 
-**Tareas (Puerto 5003):**
+**Tareas:**
 - GET /tasks - Ver todas las tareas
 - POST /register_task - Crear nueva tarea
 - PUT /update_task/:id - Modificar tarea
 - DELETE /delete_task/:id - Eliminar tarea
-
-## Autor
-
-Jair Herrera  
-Proyecto académico - Implementación de MFA
-
-## Notas
-
-- La aplicación funciona en modo de desarrollo
-- Requiere Google Authenticator para el segundo factor de autenticación
-- Los tokens JWT expiran en 24 horas
